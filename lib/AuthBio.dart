@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:lps2/LPS.dart';
+import 'package:LPS/LPS.dart';
 
 class AuthBio extends StatefulWidget {
   const AuthBio({Key? key}) : super(key: key);
