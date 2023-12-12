@@ -142,6 +142,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                 child: Text("Non"),
                 onPressed: () {
                   Navigator.of(context).pop(); // Ferme la boîte de dialogue
+                  controller.resumeCamera(); // redémarre la caméra
                 },
               ),
               TextButton(
