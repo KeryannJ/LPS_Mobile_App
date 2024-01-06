@@ -38,6 +38,7 @@ dependencies:
   local_auth: ^2.1.7
   webview_flutter: ^4.4.2
   qr_code_scanner: ^1.0.1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

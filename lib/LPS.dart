@@ -4,12 +4,12 @@ import 'DashedRectangle.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'AuthBio.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(LPS());
 
 class LPS extends StatelessWidget {
-  LPS({super.key});
-
+  const LPS({super.key});
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
@@ -63,6 +63,41 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
             style: TextStyle(color: Colors.white),
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.fingerprint,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Authentification biométrique'),
+                      content: Text(
+                          'Souhaitez-vous utiliser l\'authentification biométrique '),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Oui'),
+                          onPressed: () {
+                            setAuthBioPreference(true);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Non'),
+                          onPressed: () {
+                            setAuthBioPreference(false);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              })
+        ],
         backgroundColor: const Color.fromARGB(255, 4, 48, 99),
       ),
       // corps de la page ( appareil photo )
@@ -89,6 +124,17 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
         ],
       ),
     );
+  }
+
+  void setAuthBioPreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isAuthBioActivated', value);
+  }
+
+  Future<bool> getAuthBioPreference(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isAuthBioActivated = prefs.getBool('isAuthBioActivated') ?? false;
+    return isAuthBioActivated;
   }
 
   // lance une web view au sein d'une alertbox afin d'afficher la page de connexion
