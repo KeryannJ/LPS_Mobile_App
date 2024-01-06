@@ -23,7 +23,9 @@ class _AuthBioState extends State<AuthBio> {
 
   Future<void> authenticateUser() async {
     final prefs = await SharedPreferences.getInstance();
+    // récupère l'état d'activation de l'authentification biométrique
     bool isAuthBioActivated = prefs.getBool('isAuthBioActivated') ?? false;
+    // si elle n'est pas active alors on skip à la page principale
     if (!isAuthBioActivated) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => QRCodeScanner()));
